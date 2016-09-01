@@ -3,6 +3,12 @@
 }
 
 
+.grid {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+}
+
 .sudoku_grid {
   display: inline;
 }
@@ -16,6 +22,14 @@
   width: 45px;
   height: 45px;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+}
+
+@media only screen and (max-width: 500px) {
+  .sudoku_grid input {
+    width: 35px;
+    height: 35px;
+  }
 }
 
 .left {

@@ -153,11 +153,13 @@ export default class extends Component {
         return (
             <div>
                 <h1>Sudoku Solver</h1>
-                <div>
+                <div className="grid">
                     {grid}
                     <br/>
-                    <Button bsSize="large" bsStyle="success" onClick={() => this.solve()}>Solve</Button><br/><br/>
-                    <Button onClick={() => this.clear()}>Clear</Button>
+                    <Button block bsSize="large" bsStyle="success" onClick={() => this.solve()}>Solve</Button><br/>
+                    <Button block bsSize="large" onClick={() => this.clear()}>Clear</Button>
+                    <br/>
+                    <br/>
                 </div>
             </div>
         )

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import Sudoku from './sudoku'
 import './App.css';
 

@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
-import { Navbar, Jumbotron, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 
 export default class extends Component {
 
     constructor() {
         super();
         this.state = {data: this.empty()};
-        console.log( this.check_grid(this.state.data, 0) );
     }
 
 
@@ -23,8 +22,8 @@ export default class extends Component {
         let row = [];
         for(let i=0; i < 9; i++ ) {
             let d = data[i];
-            if ( d != 0 ) {
-                if (row.indexOf(d) != -1) {
+            if ( d !== 0 ) {
+                if (row.indexOf(d) !== -1) {
                     return false;
                 }
                 else {
@@ -41,8 +40,8 @@ export default class extends Component {
 
         let offset = 0;
 
-        if ( index > 2 ) offset = offset + 27;
-        if ( index > 5 ) offset = offset + 27;
+        if ( index > 2 ) offset += 27;
+        if ( index > 5 ) offset += 27;
 
         d.push( data[offset + ((index%3)*3) + 0]);
         d.push( data[offset + ((index%3)*3) + 1]);
@@ -88,11 +87,11 @@ export default class extends Component {
         for( let i=1; i<=81; i++ ) {
 
             let e = this.refs[`i_${i}`].value;
-            if ( e == "" ) {
+            if ( e === "" ) {
                 data.push(0);
             }
             else {
-                data.push( parseInt(e));
+                data.push( parseInt(e, 10));
             }
         }
 
@@ -105,7 +104,7 @@ export default class extends Component {
         if ( ! this.check_grid(data) ) return false;
 
         let index = data.indexOf( 0 );
-        if ( index == -1 ) return true;
+        if ( index === -1 ) return true;
 
         for ( let i=1; i <=9; i++ ) {
             data[index] = i;
@@ -120,11 +119,10 @@ export default class extends Component {
     }
 
     onChange(event) {
-        let e = event;
         let val = event.target.value;
         if (! (/[0-9]/).test(val) ) return;
         let data  = this.state.data;
-        data[parseInt( event.target.id - 1)] = val;
+        data[parseInt( event.target.id - 1, 10)] = val;
         this.setState( {data} )
     }
 
@@ -137,17 +135,17 @@ export default class extends Component {
         let data = this.state.data;
         let index = 0;
         let grid = data.map( (d) => {
-            index = index + 1;
+            index += 1;
             let c = "";
-            if ( index >=1 && index <= 9 || index >=28 && index <= 36 || index >=55 && index <= 63) c += " top"
-            if ( index >=19 && index <= 27 || index >=46 && index <= 54 || index >=73 && index <= 81) c += " bottom";
-            if ( index % 3 == 1 ) c += " left";
-            if ( index % 3 == 0 ) c += " right";
+            if ( (index >=1 && index <= 9) || (index >=28 && index <= 36) || (index >=55 && index <= 63)) c += " top"
+            if ( (index >=19 && index <= 27) || (index >=46 && index <= 54) || (index >=73 && index <= 81)) c += " bottom";
+            if ( index % 3 === 1 ) c += " left";
+            if ( index % 3 === 0 ) c += " right";
 
             return (
-                <div className="sudoku_grid">
-                    <input id={index} key={`i_${index}`} ref={`i_${index}`} className={c} type="text" value={d == 0 ? "" : d} maxLength={1} onChange={(e) => this.onChange(e)}/>
-                    {index % 9 == 0 ? <br/> : null}
+                <div className="sudoku_grid"  key={`i_${index}`}>
+                    <input id={index} ref={`i_${index}`} className={c} type="text" value={d === 0 ? "" : d} maxLength={1} onChange={(e) => this.onChange(e)}/>
+                    {index % 9 === 0 ? <br/> : null}
                 </div>
             )
         });

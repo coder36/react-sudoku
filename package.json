@@ -2,11 +2,13 @@
   "name": "react-sudoku",
   "version": "0.0.1",
   "private": true,
+  "proxy": "http://localhost:5100",
   "devDependencies": {
     "react-scripts": "0.2.3"
   },
   "dependencies": {
     "bootstrap": "^3.3.7",
+    "foreman": "^2.0.0",
     "react": "^15.3.1",
     "react-bootstrap": "^0.30.3",
     "react-dom": "^15.3.1"

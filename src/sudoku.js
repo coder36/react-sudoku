@@ -118,11 +118,12 @@ export default class extends Component {
         return false;
     }
 
-    onChange(event) {
+    onChange(event, i) {
+
         let val = event.target.value;
         if (! (/[0-9]/).test(val) ) return;
         let data  = this.state.data;
-        data[parseInt( event.target.id - 1, 10)] = val;
+        data[parseInt( i - 1, 10)] = val;
         this.setState( {data} )
     }
 
@@ -141,10 +142,10 @@ export default class extends Component {
             if ( (index >=19 && index <= 27) || (index >=46 && index <= 54) || (index >=73 && index <= 81)) c += " bottom";
             if ( index % 3 === 1 ) c += " left";
             if ( index % 3 === 0 ) c += " right";
-
+            let i = index;
             return (
                 <div className="sudoku_grid"  key={`i_${index}`}>
-                    <input id={index} ref={`i_${index}`} className={c} type="text" value={d === 0 ? "" : d} maxLength={1} onChange={(e) => this.onChange(e)}/>
+                    <input id={index} ref={`i_${index}`} className={c} type="text" value={d === 0 ? "" : d} maxLength={1} onChange={(e) => this.onChange(e, `${i}`)}/>
                     {index % 9 === 0 ? <br/> : null}
                 </div>
             )
@@ -156,7 +157,7 @@ export default class extends Component {
                 <div className="grid">
                     {grid}
                     <br/>
-                    <Button block bsSize="large" bsStyle="success" onClick={() => this.solve()}>Solve</Button><br/>
+                    <Button id="solve" ref="solve" block bsSize="large" bsStyle="success" onClick={() => this.solve()}>Solve</Button><br/>
                     <Button block bsSize="large" onClick={() => this.clear()}>Clear</Button>
                     <br/>
                     <br/>

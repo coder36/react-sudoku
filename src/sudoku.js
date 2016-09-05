@@ -1,13 +1,48 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
-import { Button } from 'react-bootstrap';
+import { Button , Modal, FormGroup, FormControl, ControlLabel, HelpBlock} from 'react-bootstrap';
+
+
+class SaveModal extends Component {
+    render() {
+        return(
+            <div className="modal">
+                <Modal
+                    show={this.props.show_save}
+                    onHide={this.props.close}
+                    container={this.props.container}
+                    aria-labelledby="contained-modal-title"
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title id="contained-modal-title">Save grid</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <FormGroup
+                            controlId="formBasicText"
+                        >
+                            <ControlLabel>Give your grid a name</ControlLabel>
+                            <FormControl
+                                type="text"
+                                placeholder="Enter text"
+                            />
+                            <FormControl.Feedback />
+                        </FormGroup>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button onClick={this.props.close}>Close</Button>
+                    </Modal.Footer>
+                </Modal>
+                </div>
+        )
+    }
+}
 
 export default class extends Component {
 
     constructor() {
         super();
-        this.state = {data: this.empty()};
+        this.state = {data: this.empty(), show_save: false};
     }
 
 
@@ -131,6 +166,9 @@ export default class extends Component {
         this.setState( {data: this.empty()} )
     }
 
+    save() {
+        this.setState( {show_save: true} )
+    }
 
     render() {
         let data = this.state.data;
@@ -151,14 +189,20 @@ export default class extends Component {
             )
         });
 
+        let close = () => this.setState({ show_save: false});
+
         return (
             <div>
+
+                <SaveModal close={close} show_save={this.state.show_save} container={this}/>
+
                 <h1>Sudoku Solver</h1>
                 <div className="grid">
                     {grid}
                     <br/>
                     <Button id="solve" ref="solve" block bsSize="large" bsStyle="success" onClick={() => this.solve()}>Solve</Button><br/>
-                    <Button block bsSize="large" onClick={() => this.clear()}>Clear</Button>
+                    <Button block bsSize="large" onClick={() => this.clear()}>Clear</Button><br/>
+                    <Button block bsSize="large" onClick={() => this.save()}>Save</Button>
                     <br/>
                     <br/>
                 </div>

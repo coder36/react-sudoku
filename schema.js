@@ -1,7 +1,9 @@
 var GraphQLSchema = require('graphql').GraphQLSchema;
 var GraphQLObjectType = require('graphql').GraphQLObjectType;
 var GraphQLString = require('graphql').GraphQLString;
+var GraphQLInt = require('graphql').GraphQLInt;
 var GraphQLList = require('graphql').GraphQLList;
+var GraphQLNonNull = require('graphql').GraphQLNonNull;
 var MongoClient = require('mongodb').MongoClient;
 
 let mongo;
@@ -14,41 +16,63 @@ MongoClient.connect("mongodb://localhost:27017/demo", function(err, db) {
 });
 
 
-const PersonType = new GraphQLObjectType( {
-    name: 'Person',
+const SudokuType = new GraphQLObjectType( {
+    name: 'Sudoku',
     description: '...',
 
     fields: () => ({
-        firstName: {type: GraphQLString, resolve: (person) => person.first_name },
-        lastName: { type: GraphQLString, resolve: (person) => person.last_name},
-        email: {type: GraphQLString},
-        friends: {
-            type: new GraphQLList(PersonType),
-            resolve: (person) => person.friends.map( getPerson )
-        }
+        grid: {type: new GraphQLList(GraphQLInt), resolve: (sudoku) => sudoku.grid },
+        id: {type: GraphQLString},
+        name: {type: GraphQLString}
     })
 });
 
-function getPerson(id) {
-    return mongo.collection('persons').findOne({id})
+function getGrid(id) {
+    return
 }
 
 const QueryType = new GraphQLObjectType( {
     name: 'Query',
     description: '...',
     fields: () => ({
-        person: {
-            type: PersonType,
+        sudoku: {
+            type: SudokuType,
             args: {
                 id: {
                     type: GraphQLString
                 }
             },
             resolve: (root,args) => {
-                return getPerson(args.id);
+                return mongo.collection('sudoku').findOne({id: args.id})
             }
-
+        },
+        data: {
+            type: new GraphQLList(SudokuType),
+            resolve: (root,args) => {
+                return mongo.collection('sudoku').find({}).toArray()
+            }
+        },
+        add: {
+            type: SudokuType,
+            args: {
+                name: { type: new GraphQLNonNull(GraphQLString)},
+                grid: { type: new GraphQLList(GraphQLInt)}
+            },
+            resolve: (root,{name,grid}) => {
+                let id = (new Date()).getTime();
+                mongo.collection('sudoku').insert({id: id, name: name, grid: grid});
+                return {
+                    grid: grid,
+                    name: name,
+                    id: id
+                }
+            }
         }
+
+
+
+
+
     })
 });
 

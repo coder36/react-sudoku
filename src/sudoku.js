@@ -121,7 +121,7 @@ export default class extends Component {
     onChange(event, i) {
 
         let val = event.target.value;
-        if (! (/[0-9]/).test(val) ) return;
+        if (val !== "" && ! (/[0-9 ]/).test(val) ) return;
         let data  = this.state.data;
         data[parseInt( i - 1, 10)] = val;
         this.setState( {data} )

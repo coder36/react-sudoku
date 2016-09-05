@@ -1,9 +1,17 @@
 var express = require('express');
+var graphQLHTTP = require('express-graphql');
+var schema = require('./schema');
 var app = express();
+
 
 app.get("/api", function(req,resp) {
     resp.send("Hello world");
 });
+
+app.use( graphQLHTTP({
+    schema,
+    graphiql: true,
+}));
 
 var port = process.env.PORT || 3000;
 

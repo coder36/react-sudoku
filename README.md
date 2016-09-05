@@ -37,6 +37,16 @@ works well and makes for an easy dev experience.
 
 In reality, for a project, I would probably serve that static js and html from the same server.
 
+
+
+
+# Deployment to Heroku
+
+```
+heroku create reactsudoku --buildpack https://github.com/mars/create-react-app-buildpack.git
+git push heroku
+```
+
 #Conclusions
 
 Its very easy to get started, and takes away the complex configuration normally needed for a nice webpack setup.

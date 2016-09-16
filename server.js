@@ -1,6 +1,6 @@
 var express = require('express');
 var graphQLHTTP = require('express-graphql');
-var schema = require('./schema');
+var schema = require('./graphql_schema');
 var app = express();
 
 
@@ -20,5 +20,3 @@ var server = app.listen(port, function(err) {
     var port = server.address().port;
     console.log('Express listening at %s:%s', host, port);
 });
-
-

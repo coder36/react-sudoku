@@ -1,11 +1,11 @@
-#Suduku React
+#Sudoku React
 
 [Sudoku solver](https://reactsudoku.herokuapp.com/)
 
 Experiment with facebook's "Create React apps with no configuration".  I want to answer
 the following questions:
 
-* How easy is really to get started ?
+* How easy is it really to get started ?
 * How does it integrate with a node backend ?
 
 I'm also having a play with GraphQL, which I've got say is amazing!  
